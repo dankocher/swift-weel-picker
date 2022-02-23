@@ -10,6 +10,7 @@ import UIKit
 class ViewController: UIViewController {
     
     @IBOutlet weak var Wrapper: UIView!
+    var tmp = 0
     
     
     
@@ -28,8 +29,9 @@ class ViewController: UIViewController {
 
     }
 
-    func saySomth(text: Int) {
-        print(text)
+    func saySomth(side:Int) {
+        tmp=tmp+side
+        print(tmp, "tmp")
     }
 
 }

@@ -34,9 +34,8 @@ class InfinityCouruselCounter:NSObject, UICollectionViewDataSource, UICollection
     
     fileprivate var tmpOffsetDifference: Float = 0.0
     fileprivate var tmpContentOffset: Float = 0.0
-    fileprivate var swipeCounter: Int = 0
     
-    fileprivate(set) public var swipeAction:((_ counter:Int)->Void)?
+    fileprivate(set) public var swipeAction:((_ side:Int)->Void)?
      
     fileprivate var collectionViewBoundsValue: CGFloat {
         get {
@@ -44,12 +43,12 @@ class InfinityCouruselCounter:NSObject, UICollectionViewDataSource, UICollection
         }
     }
     
-    @objc func doubleTapped() {
-        swipeCounter = 0
-        self.swipeAction!(swipeCounter)
-    }
+//    @objc func doubleTapped() {
+//        swipeCounter = 0
+//        self.swipeAction!(swipeCounter)
+//    }
     
-    init(callbackCounter: @escaping (_ counter:Int) -> Void, width: CGFloat) {
+    init(callbackCounter: @escaping (_ side:Int) -> Void, width: CGFloat) {
         self.width = width
         self.swipeAction = callbackCounter
         
@@ -91,9 +90,9 @@ class InfinityCouruselCounter:NSObject, UICollectionViewDataSource, UICollection
     
         myCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "MyCell")
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
-        tap.numberOfTapsRequired = 2
-        myCollectionView.addGestureRecognizer(tap)
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
+//        tap.numberOfTapsRequired = 2
+//        myCollectionView.addGestureRecognizer(tap)
         
         myCollectionView.delegate = self
         myCollectionView.dataSource = self
@@ -165,11 +164,10 @@ extension InfinityCouruselCounter: UICollectionViewDelegateFlowLayout {
             tmpOffsetDifference += contentOffset - tmpContentOffset;
 
             if(tmpOffsetDifference/step >= 1){
-                swipeCounter+=1
             
                 tmpOffsetDifference = tmpOffsetDifference.truncatingRemainder(dividingBy:12.2)
                 
-                self.swipeAction!(swipeCounter)
+                self.swipeAction!( 1)
                 let generator = UIImpactFeedbackGenerator(style: .light)
                 generator.impactOccurred()
             }
@@ -178,11 +176,10 @@ extension InfinityCouruselCounter: UICollectionViewDelegateFlowLayout {
             tmpOffsetDifference += tmpContentOffset - contentOffset;
             
             if(tmpOffsetDifference/step >= 1){
-                swipeCounter-=1
                 
                 tmpOffsetDifference = tmpOffsetDifference.truncatingRemainder(dividingBy:12.2)
                 
-                self.swipeAction!(swipeCounter)
+                self.swipeAction!( -1)
                 let generator = UIImpactFeedbackGenerator(style: .light)
                 generator.impactOccurred()
             }
